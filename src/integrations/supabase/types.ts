@@ -14,16 +14,184 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessment_attempts: {
+        Row: {
+          answers: Json
+          candidate_id: string
+          completed_at: string | null
+          ends_at: string
+          id: string
+          passed: boolean | null
+          percentage: number | null
+          question_ids: string[]
+          score: number | null
+          started_at: string
+          status: Database["public"]["Enums"]["attempt_status"]
+          total: number | null
+        }
+        Insert: {
+          answers?: Json
+          candidate_id: string
+          completed_at?: string | null
+          ends_at: string
+          id?: string
+          passed?: boolean | null
+          percentage?: number | null
+          question_ids?: string[]
+          score?: number | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["attempt_status"]
+          total?: number | null
+        }
+        Update: {
+          answers?: Json
+          candidate_id?: string
+          completed_at?: string | null
+          ends_at?: string
+          id?: string
+          passed?: boolean | null
+          percentage?: number | null
+          question_ids?: string[]
+          score?: number | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["attempt_status"]
+          total?: number | null
+        }
+        Relationships: []
+      }
+      assessment_config: {
+        Row: {
+          active: boolean
+          id: number
+          pass_mark: number
+          timer_minutes: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          id?: number
+          pass_mark?: number
+          timer_minutes?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          id?: number
+          pass_mark?: number
+          timer_minutes?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          id_number: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id: string
+          id_number: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          id_number?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          active: boolean
+          category: Database["public"]["Enums"]["question_category"]
+          correct_answer: string
+          created_at: string
+          id: string
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          question_text: string
+        }
+        Insert: {
+          active?: boolean
+          category: Database["public"]["Enums"]["question_category"]
+          correct_answer: string
+          created_at?: string
+          id?: string
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          question_text: string
+        }
+        Update: {
+          active?: boolean
+          category?: Database["public"]["Enums"]["question_category"]
+          correct_answer?: string
+          created_at?: string
+          id?: string
+          option_a?: string
+          option_b?: string
+          option_c?: string
+          option_d?: string
+          question_text?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      email_for_id_number: { Args: { _id_number: string }; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "candidate"
+      attempt_status: "in_progress" | "completed"
+      question_category:
+        | "logical_reasoning"
+        | "it_knowledge"
+        | "problem_solving"
+        | "communication"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +318,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "candidate"],
+      attempt_status: ["in_progress", "completed"],
+      question_category: [
+        "logical_reasoning",
+        "it_knowledge",
+        "problem_solving",
+        "communication",
+      ],
+    },
   },
 } as const
