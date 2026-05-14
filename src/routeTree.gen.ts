@@ -18,6 +18,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResultsIdRouteImport } from './routes/results.$id'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminQuestionsRouteImport } from './routes/admin.questions'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -64,6 +65,11 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminQuestionsRoute = AdminQuestionsRouteImport.update({
+  id: '/questions',
+  path: '/questions',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/admin/questions': typeof AdminQuestionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/results/$id': typeof ResultsIdRoute
 }
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/admin/questions': typeof AdminQuestionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/results/$id': typeof ResultsIdRoute
 }
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/admin/questions': typeof AdminQuestionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/results/$id': typeof ResultsIdRoute
 }
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/admin/questions'
     | '/admin/settings'
     | '/results/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/admin/questions'
     | '/admin/settings'
     | '/results/$id'
   id:
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/admin/questions'
     | '/admin/settings'
     | '/results/$id'
   fileRoutesById: FileRoutesById
@@ -211,14 +223,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/questions': {
+      id: '/admin/questions'
+      path: '/questions'
+      fullPath: '/admin/questions'
+      preLoaderRoute: typeof AdminQuestionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminQuestionsRoute: typeof AdminQuestionsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminQuestionsRoute: AdminQuestionsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
 }
 
@@ -237,3 +258,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
