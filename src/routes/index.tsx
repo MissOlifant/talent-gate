@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
 
 const steps = [
   { icon: UserPlus, title: "Register", desc: "Create your candidate profile in under a minute." },
-  { icon: FileText, title: "Take the Assessment", desc: "Answer timed multiple-choice questions across four categories." },
+  { icon: FileText, title: "Take the Assessment", desc: "Answer 50 timed questions across Math, Logic, Patterns & Technical." },
   { icon: Trophy, title: "Get Instant Results", desc: "See your score and shortlist status the moment you finish." },
 ];
 
@@ -46,7 +46,7 @@ function Index() {
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link to="/register"><Button size="lg">Register as Candidate</Button></Link>
               <Link to="/login"><Button size="lg" variant="outline">Candidate Login</Button></Link>
-              <Link to="/admin-login"><Button size="lg" variant="ghost">Admin Login</Button></Link>
+              <Link to="/admin-login"><Button size="lg" variant="ghost">Staff Login</Button></Link>
             </div>
           </div>
         </section>
