@@ -90,6 +90,8 @@ export type Database = {
           full_name: string
           id: string
           id_number: string
+          is_staff: boolean
+          password_changed_at: string
           phone: string | null
         }
         Insert: {
@@ -98,6 +100,8 @@ export type Database = {
           full_name: string
           id: string
           id_number: string
+          is_staff?: boolean
+          password_changed_at?: string
           phone?: string | null
         }
         Update: {
@@ -106,6 +110,8 @@ export type Database = {
           full_name?: string
           id?: string
           id_number?: string
+          is_staff?: boolean
+          password_changed_at?: string
           phone?: string | null
         }
         Relationships: []
@@ -185,15 +191,13 @@ export type Database = {
         }
         Returns: boolean
       }
+      mark_password_changed: { Args: never; Returns: undefined }
+      password_expired: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "candidate"
       attempt_status: "in_progress" | "completed"
-      question_category:
-        | "logical_reasoning"
-        | "it_knowledge"
-        | "problem_solving"
-        | "communication"
+      question_category: "math" | "logic" | "patterns" | "technical"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -323,12 +327,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "candidate"],
       attempt_status: ["in_progress", "completed"],
-      question_category: [
-        "logical_reasoning",
-        "it_knowledge",
-        "problem_solving",
-        "communication",
-      ],
+      question_category: ["math", "logic", "patterns", "technical"],
     },
   },
 } as const

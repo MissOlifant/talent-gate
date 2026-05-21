@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StaffRegisterRouteImport } from './routes/staff-register'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ChangePasswordRouteImport } from './routes/change-password'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -20,6 +22,11 @@ import { Route as ResultsIdRouteImport } from './routes/results.$id'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminQuestionsRouteImport } from './routes/admin.questions'
 
+const StaffRegisterRoute = StaffRegisterRouteImport.update({
+  id: '/staff-register',
+  path: '/staff-register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -33,6 +40,11 @@ const LoginRoute = LoginRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangePasswordRoute = ChangePasswordRouteImport.update({
+  id: '/change-password',
+  path: '/change-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssessmentRoute = AssessmentRouteImport.update({
@@ -76,9 +88,11 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
   '/assessment': typeof AssessmentRoute
+  '/change-password': typeof ChangePasswordRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/staff-register': typeof StaffRegisterRoute
   '/admin/questions': typeof AdminQuestionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/results/$id': typeof ResultsIdRoute
@@ -88,9 +102,11 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
   '/assessment': typeof AssessmentRoute
+  '/change-password': typeof ChangePasswordRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/staff-register': typeof StaffRegisterRoute
   '/admin/questions': typeof AdminQuestionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/results/$id': typeof ResultsIdRoute
@@ -101,9 +117,11 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
   '/assessment': typeof AssessmentRoute
+  '/change-password': typeof ChangePasswordRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/staff-register': typeof StaffRegisterRoute
   '/admin/questions': typeof AdminQuestionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/results/$id': typeof ResultsIdRoute
@@ -115,9 +133,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin-login'
     | '/assessment'
+    | '/change-password'
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/staff-register'
     | '/admin/questions'
     | '/admin/settings'
     | '/results/$id'
@@ -127,9 +147,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin-login'
     | '/assessment'
+    | '/change-password'
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/staff-register'
     | '/admin/questions'
     | '/admin/settings'
     | '/results/$id'
@@ -139,9 +161,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin-login'
     | '/assessment'
+    | '/change-password'
     | '/dashboard'
     | '/login'
     | '/register'
+    | '/staff-register'
     | '/admin/questions'
     | '/admin/settings'
     | '/results/$id'
@@ -152,14 +176,23 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   AssessmentRoute: typeof AssessmentRoute
+  ChangePasswordRoute: typeof ChangePasswordRoute
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  StaffRegisterRoute: typeof StaffRegisterRoute
   ResultsIdRoute: typeof ResultsIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/staff-register': {
+      id: '/staff-register'
+      path: '/staff-register'
+      fullPath: '/staff-register'
+      preLoaderRoute: typeof StaffRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -179,6 +212,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/change-password': {
+      id: '/change-password'
+      path: '/change-password'
+      fullPath: '/change-password'
+      preLoaderRoute: typeof ChangePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assessment': {
@@ -250,9 +290,11 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   AssessmentRoute: AssessmentRoute,
+  ChangePasswordRoute: ChangePasswordRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  StaffRegisterRoute: StaffRegisterRoute,
   ResultsIdRoute: ResultsIdRoute,
 }
 export const routeTree = rootRouteImport

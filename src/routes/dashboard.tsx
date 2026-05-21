@@ -45,9 +45,22 @@ function Dashboard() {
     }
     const { data: cfg } = await supabase.from("assessment_config").select("*").eq("id", 1).maybeSingle();
     if (!cfg?.active) { setBusy(false); return; }
-    const { data: qs } = await supabase.from("questions").select("id").eq("active", true);
+    const { data: qs } = await supabase
+      .from("questions")
+      .select("id,category")
+      .eq("active", true);
     if (!qs?.length) { setBusy(false); return; }
-    const ids = qs.map((q) => q.id).sort(() => Math.random() - 0.5);
+    // Group by category, shuffle within each, then concatenate in fixed category order
+    const order = ["math", "logic", "patterns", "technical"];
+    const ids: string[] = [];
+    for (const cat of order) {
+      const inCat = qs.filter((q) => q.category === cat).map((q) => q.id);
+      inCat.sort(() => Math.random() - 0.5);
+      ids.push(...inCat);
+    }
+    // Append any uncategorised at end (safety)
+    const known = new Set(order);
+    ids.push(...qs.filter((q) => !known.has(q.category)).map((q) => q.id));
     const ends = new Date(Date.now() + cfg.timer_minutes * 60_000).toISOString();
     const { error } = await supabase.from("assessment_attempts").insert({
       candidate_id: user.id,

@@ -19,7 +19,7 @@ export function SiteHeader() {
             <>
               <Link to="/login"><Button variant="ghost" size="sm">Candidate Login</Button></Link>
               <Link to="/register"><Button variant="outline" size="sm">Register</Button></Link>
-              <Link to="/admin-login"><Button size="sm">Admin Login</Button></Link>
+              <Link to="/admin-login"><Button size="sm">Staff Login</Button></Link>
             </>
           )}
           {user && role === "candidate" && (
