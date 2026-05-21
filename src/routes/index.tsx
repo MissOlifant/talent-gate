@@ -47,6 +47,7 @@ function Index() {
               <Link to="/register"><Button size="lg">Register as Candidate</Button></Link>
               <Link to="/login"><Button size="lg" variant="outline">Candidate Login</Button></Link>
               <Link to="/admin-login"><Button size="lg" variant="ghost">Staff Login</Button></Link>
+              <Link to="/staff-register"><Button size="lg" variant="ghost">Staff Register</Button></Link>
             </div>
           </div>
         </section>
