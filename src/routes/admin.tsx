@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, FileQuestion, Settings, LogOut, GraduationCap } from "lucide-react";
 
@@ -18,6 +19,11 @@ function AdminLayout() {
     if (loading) return;
     if (!user) nav({ to: "/admin-login" });
     else if (role && role !== "admin") nav({ to: "/dashboard" });
+    else if (user && role === "admin") {
+      supabase.rpc("password_expired", { _user_id: user.id }).then(({ data }) => {
+        if (data === true) nav({ to: "/change-password" });
+      });
+    }
   }, [user, role, loading, nav]);
 
   const items = [
