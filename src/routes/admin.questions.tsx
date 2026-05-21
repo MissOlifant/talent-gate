@@ -17,12 +17,12 @@ export const Route = createFileRoute("/admin/questions")({
 });
 
 const CATS = [
-  { v: "logical_reasoning", l: "Logical Reasoning" },
-  { v: "it_knowledge", l: "Basic IT Knowledge" },
-  { v: "problem_solving", l: "Problem Solving" },
-  { v: "communication", l: "Communication Skills" },
+  { v: "math", l: "Math" },
+  { v: "logic", l: "Logic" },
+  { v: "patterns", l: "Patterns" },
+  { v: "technical", l: "Technical" },
 ];
-const empty = { id: "", category: "logical_reasoning", question_text: "", option_a: "", option_b: "", option_c: "", option_d: "", correct_answer: "A", active: true };
+const empty = { id: "", category: "math", question_text: "", option_a: "", option_b: "", option_c: "", option_d: "", correct_answer: "A", active: true };
 
 function QuestionsPage() {
   const [list, setList] = useState<any[]>([]);
