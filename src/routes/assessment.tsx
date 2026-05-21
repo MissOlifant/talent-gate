@@ -18,6 +18,13 @@ type Q = {
   option_a: string; option_b: string; option_c: string; option_d: string;
 };
 
+const CAT_LABEL: Record<string, string> = {
+  math: "Math",
+  logic: "Logic",
+  patterns: "Patterns",
+  technical: "Technical",
+};
+
 function AssessmentPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
@@ -93,6 +100,20 @@ function AssessmentPage() {
 
   const current = questions[idx];
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers]);
+  const sectionCounts = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const q of questions) m[q.category] = (m[q.category] || 0) + 1;
+    return m;
+  }, [questions]);
+  const sectionIndex = useMemo(() => {
+    if (!current) return 0;
+    let i = 0;
+    for (const q of questions) {
+      if (q.id === current.id) break;
+      if (q.category === current.category) i++;
+    }
+    return i + 1;
+  }, [questions, current]);
 
   if (!attempt || !current) {
     return <div className="min-h-screen grid place-items-center text-muted-foreground">Loading assessment…</div>;
@@ -118,8 +139,13 @@ function AssessmentPage() {
         </div>
         <Progress value={((idx + 1) / questions.length) * 100} />
         <Card className="p-6 mt-4">
-          <div className="text-xs uppercase tracking-wide text-primary font-semibold">
-            {current.category.replace("_", " ")}
+          <div className="flex items-center justify-between">
+            <div className="text-xs uppercase tracking-wide text-primary font-semibold">
+              {CAT_LABEL[current.category] || current.category}
+              <span className="ml-2 text-muted-foreground normal-case font-normal">
+                Section {sectionIndex} of {sectionCounts[current.category]}
+              </span>
+            </div>
           </div>
           <h2 className="text-xl font-semibold mt-2">{current.question_text}</h2>
           <div className="mt-6 space-y-3">
